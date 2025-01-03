@@ -11,3 +11,4 @@ This platform was originally made and used the for the final edition of EncryptI
 - <b>Special Thanks - Krishaay Jois</b> <br> Secret sauce of the event. His guidance was phenomenal.
 <br><br>
 - Also a huge round of applause for the Paradox team for helping us out in multimedia, sponsorships, administration, operations and what not. Naming a few of you would be injustice to others.
+- 
