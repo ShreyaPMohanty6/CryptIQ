@@ -29,9 +29,12 @@ export const POST: RequestHandler = async ({ request, cookies, locals }) => {
         `answer ${answer} ${typeof answer}`,
     )
 
+    const userDoc = await adminDB.collection('/users').doc(locals.userID).get();
+    const teamId = userDoc.data().team;
+    const team = await adminDB.collection('/teams').doc(teamId).get();
+    const level = team.data().level;
     let isAdmin = false;
     try {
-        const userDoc = await adminDB.collection('/users').doc(locals.userID).get();
         if (userDoc.exists) {
             const userData = userDoc.data();
             isAdmin = userData?.role === 'admin';
@@ -50,6 +53,9 @@ export const POST: RequestHandler = async ({ request, cookies, locals }) => {
 
     if (!isAdmin && !questionsVisible) return error(405, "Method Not Allowed");
     if (!questionMap.has(questionId)) return error(404, "Not Found");
+    const submittedLevelDoc = await adminDB.collection('/levels').doc(questionId).get();
+    const submittedLevel = submittedLevelDoc.data().level;
+    if (level < submittedLevel) return error(405, "Method Not Allowed");
     if (answer === null || answer.trim() === "") return error(400, "Bad Request");
     answer = answer.toLowerCase();
     let actualAnswer = questionMap.get(questionId).answer;
